@@ -1,9 +1,12 @@
-const express = require('express')
-const exphbs = require('express-handlebars');
-const app = express()
-const path = require('path')
-const db = require('./db/connection')
-const bodyParser = require ('body-parser')
+const express       = require('express');
+const exphbs        = require('express-handlebars');
+const app           = express();
+const path          = require('path');
+const db            = require('./db/connection');
+const bodyParser    = require('body-parser');
+const Job           = require('./models/Job');
+const Sequelize     = require('sequelize');
+const Op            = Sequelize.Op;
 
 
 const PORT = 3000
@@ -18,12 +21,13 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 //Handle bars
 app.set('views', path.join(__dirname, 'views'));
-app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
 
-// static folder
-app.use(express.static(path.join(__dirname, 'public')))
+
+//static folder
+app.use(express.static(path.join(__dirname, 'public')));
 
 // db connection
 db
